@@ -26,6 +26,7 @@ run the following scripts in the following order:
  - direct_estimates.R
  - smoothed_direct_estimates_conflict_int.R
  - plot_results_conflict_int.R
+ 
 If direct_estimates.R has already been run, it does not need to be rerun.
 
 
