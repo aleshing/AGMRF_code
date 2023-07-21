@@ -6,5 +6,5 @@ estimation" by Serge Aleshin-Guendel and Jon Wakefield.
  - Multi-Country contains code used to reproduce the application estimating 
  U5MR at the subnational level across multiple countries
  - Rwanda contains code used to reproduce the application estimating U5MR
- at the national level in Rwanda=
+ at the national level in Rwanda
  - Simulations contains code used to reproduce the simulation study
