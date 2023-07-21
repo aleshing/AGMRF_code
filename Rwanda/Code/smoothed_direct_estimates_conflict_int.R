@@ -66,14 +66,16 @@ dat <- smoothed_direct_bym2$newdata %>% arrange(region) %>%
   mutate(intercept_conflict = as.numeric(conflict == TRUE),
          intercept_nonconflict = as.numeric(conflict == FALSE))
 
-fit_conflict_int <- INLA::inla(mod, family = "gaussian", control.compute = options, 
-                              data = dat, 
-                              control.predictor = list(compute = TRUE), 
-                              control.family = 
-                                list(hyper =  list(prec = list(initial = log(1), 
-                                                               fixed = TRUE))), 
-                              scale = dat$logit.prec, 
-                              control.inla = control.inla, verbose = FALSE)
+fit_conflict_int <- INLA::inla(mod, family = "gaussian", 
+                               control.compute = options, 
+                               data = dat, 
+                               control.predictor = list(compute = TRUE), 
+                               control.family = 
+                                 list(hyper =  
+                                        list(prec = list(initial = log(1),
+                                                         fixed = TRUE))), 
+                               scale = dat$logit.prec, 
+                               control.inla = control.inla, verbose = FALSE)
 
 out_conflict_int <- dat %>% select(region, years, conflict) %>%
   mutate(median = NA, lower = NA, upper = NA, logit.median = NA,
