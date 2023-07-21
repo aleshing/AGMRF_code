@@ -5,8 +5,7 @@ at the national level in Rwanda.
 ## Downloading Data
 Reproducing the application requires access to data from the 1992, 2000, 2005, 
 2008, 2010, and 2015 Standard DHS surveys from Rwanda. Instructions for gaining 
-access to these surveys are available at 
-(https://dhsprogram.com/)[https://dhsprogram.com/].
+access to these surveys are available at https://dhsprogram.com/.
 
 Once one has access to the data from these surveys, they should download the 
 Births Recode data sets. These should be files RWBR21DT.zip, RWBR41DT.zip, 

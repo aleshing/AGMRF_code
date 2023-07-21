@@ -68,16 +68,14 @@ meta_analysis_estimates_all <- get_meta_analysis_est(direct_estimates_all, years
 meta_analysis_estimates <- get_meta_analysis_est(direct_estimates, years)
 
 #### Get IGME estimates ####
-igme <- read.csv("../Data/IGME/IGME_U5MR_20191007.csv") 
-igme <- igme %>% filter(REF_AREA == "Rwanda", 
-                        INDICATOR == "Under-five mortality rate",
-                        SEX == "Total",
-                        SERIES_NAME == "UN IGME estimate 2019") 
-write.csv(igme, file = "../Data/IGME/IGME_U5MR_20191007_Rwanda.csv")
-igme <- igme %>% filter(REF_AREA == "Rwanda", 
-                        INDICATOR == "Under-five mortality rate",
-                        SEX == "Total",
-                        SERIES_NAME == "UN IGME estimate 2019") %>%
+# igme <- read.csv("../Data/IGME/IGME_U5MR_20191007.csv") 
+# igme <- igme %>% filter(REF_AREA == "Rwanda", 
+#                         INDICATOR == "Under-five mortality rate",
+#                         SEX == "Total",
+#                         SERIES_NAME == "UN IGME estimate 2019") 
+# write.csv(igme, file = "../Data/IGME/IGME_U5MR_20191007_Rwanda.csv")
+igme <- read.csv("../Data/IGME/IGME_U5MR_20191007_Rwanda.csv") 
+igme <- igme %>%
     mutate(years = as.numeric(substr(as.character(TIME_PERIOD), 1, 4)),
            est = OBS_VALUE / 1000, lower = LOWER_BOUND / 1000, 
            upper = UPPER_BOUND / 1000) %>%
