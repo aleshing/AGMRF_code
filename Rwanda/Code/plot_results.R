@@ -87,7 +87,8 @@ ggsave(filename = "../Results/priors.pdf", height = 5, width = 8)
 pc.u.theta <- 0.75
 pc.alpha.theta <- 0.75
 theta_prior <- calc_theta_prior(eps, pc.u.theta, pc.alpha.theta)
-inla.mmarginal(data.frame(x = theta_prior$theta, y = exp(theta_prior$log_density)))
+inla.mmarginal(data.frame(x = theta_prior$theta, 
+                          y = exp(theta_prior$log_density)))
 theta_post <- 
     inla.tmarginal(fun = SUMMER::expit, 
                    marginal = smoothed_direct_adaptive_bym2$fit$marginals.hyperpar$`Theta3 for region.struct`)
@@ -106,8 +107,10 @@ ggsave(filename = "../Results/theta_prior_post_comp.pdf",
 survey_years <- c(1992, 2000, 2005, 2008, 2010, 2015)
 
 smoothed_summaries <- 
-  data.frame(Parameter = c("mu", "tau", "phi", "theta", paste0("nu_", survey_years)),
-             Mean = NA, SD = NA, `2.5% Quantile` = NA, Median = NA, `97.5% Quantile` = NA, Mode = NA)
+  data.frame(Parameter = c("mu", "tau", "phi", "theta", 
+                           paste0("nu_", survey_years)),
+             Mean = NA, SD = NA, `2.5% Quantile` = NA, Median = NA, 
+             `97.5% Quantile` = NA, Mode = NA)
 smoothed_summaries[1, 2:7] <- 
   smoothed_direct_bym2$fit$summary.fixed[, 1:6] %>% unname()
 smoothed_summaries[2:3, 2:7] <- 
@@ -130,8 +133,10 @@ theta_sum <- inla.zmarginal(theta_post)
 theta_mode <- inla.mmarginal(theta_post)
 
 proposed_summaries <- 
-  data.frame(Parameter = c("mu", "tau", "phi", "theta", paste0("nu_", survey_years)),
-             Mean = NA, SD = NA, `2.5% Quantile` = NA, Median = NA, `97.5% Quantile` = NA, Mode = NA)
+  data.frame(Parameter = c("mu", "tau", "phi", "theta", 
+                           paste0("nu_", survey_years)),
+             Mean = NA, SD = NA, `2.5% Quantile` = NA, Median = NA, 
+             `97.5% Quantile` = NA, Mode = NA)
 proposed_summaries[1, 2:7] <- 
   smoothed_direct_adaptive_bym2$fit$summary.fixed[, 1:6] %>% unname()
 proposed_summaries[2, 2:7] <- 
@@ -177,7 +182,8 @@ plot_direct_lines <-
   labs(color = "Survey Year") +
   annotate("rect", xmin = 1992.5, xmax = 1999.5, ymin = -Inf, ymax = Inf,
            alpha = 0.25) 
-ggsave(filename = "../Results/direct_estimates_lines.pdf", height = 5, width = 8)
+ggsave(filename = "../Results/direct_estimates_lines.pdf", 
+       height = 5, width = 8)
 
 igme_meta <- igme %>% select(years, est, lower, upper) %>%
   mutate(source = "IGME") %>%
@@ -217,9 +223,11 @@ ggplot(aes(x = years, y = est, color = Model)) +
     geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.3) + 
     geom_point() + 
     ylab("U5MR") + xlab("Year") + 
-    scale_color_manual(values = c("Smoothed Direct" = "grey40", "Proposed" = "black", 
-                                  "IGME" = "blue", "Survey Meta" = "red")) 
-ggsave(filename = "../Results/smoothed_direct_comp_1_rwanda.pdf", height = 5, width = 8)
+    scale_color_manual(values = c("Smoothed Direct" = "grey40", 
+                                  "Proposed" = "black", "IGME" = "blue", 
+                                  "Survey Meta" = "red")) 
+ggsave(filename = "../Results/smoothed_direct_comp_1_rwanda.pdf", 
+       height = 5, width = 8)
 
 out_combined_for_plot %>%
   mutate(Model = model, 
@@ -229,8 +237,9 @@ out_combined_for_plot %>%
   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.3) + 
   geom_point() + 
   ylab("U5MR") + xlab("Year") + 
-  scale_color_manual(values = c("Smoothed Direct" = "grey40", "Proposed" = "black", 
-                                "IGME" = "blue", "Survey Meta" = "red")) +
+  scale_color_manual(values = c("Smoothed Direct" = "grey40", 
+                                "Proposed" = "black", "IGME" = "blue", 
+                                "Survey Meta" = "red")) +
   annotate("rect", xmin = -Inf, xmax = 1993, ymin = -Inf, ymax = Inf, 
            alpha = 0.5) + 
   annotate("rect", xmin = 1995, xmax = Inf, ymin = -Inf, ymax = Inf, 
@@ -239,7 +248,8 @@ out_combined_for_plot %>%
          alpha = 0.5) + 
   annotate("rect", xmin = 1993, xmax = 1995, ymin = 0.325, ymax = Inf, 
            alpha = 0.5)
-ggsave(filename = "../Results/smoothed_direct_comp_2_rwanda.pdf", height = 5, width = 8)
+ggsave(filename = "../Results/smoothed_direct_comp_2_rwanda.pdf", 
+       height = 5, width = 8)
 
 out_combined_for_plot %>%
   mutate(Model = model, 
@@ -249,8 +259,9 @@ out_combined_for_plot %>%
   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.3) + 
   geom_point() + 
   ylab("U5MR") + xlab("Year") + 
-  scale_color_manual(values = c("Smoothed Direct" = "grey40", "Proposed" = "black", 
-                                "IGME" = "blue", "Survey Meta" = "red")) +
+  scale_color_manual(values = c("Smoothed Direct" = "grey40", 
+                                "Proposed" = "black", "IGME" = "blue", 
+                                "Survey Meta" = "red")) +
   annotate("rect", xmin = -Inf, xmax = 2014, ymin = -Inf, ymax = Inf, 
            alpha = 0.5) + 
   annotate("rect", xmin = 2020, xmax = Inf, ymin = -Inf, ymax = Inf, 
@@ -259,7 +270,8 @@ out_combined_for_plot %>%
            alpha = 0.5) + 
   annotate("rect", xmin = 2014, xmax = 2020, ymin = 0.11, ymax = Inf, 
            alpha = 0.5)
-ggsave(filename = "../Results/smoothed_direct_comp_3_rwanda.pdf", height = 5, width = 8)
+ggsave(filename = "../Results/smoothed_direct_comp_3_rwanda.pdf", 
+       height = 5, width = 8)
 
     
 

@@ -64,7 +64,8 @@ direct_estimates <- direct_estimates %>%
   filter(as.numeric(surveyYears) - as.numeric(years) <= limit_years)
 
 #### Get meta analysis estimates ####
-meta_analysis_estimates_all <- get_meta_analysis_est(direct_estimates_all, years)
+meta_analysis_estimates_all <- get_meta_analysis_est(direct_estimates_all, 
+                                                     years)
 meta_analysis_estimates <- get_meta_analysis_est(direct_estimates, years)
 
 #### Get IGME estimates ####

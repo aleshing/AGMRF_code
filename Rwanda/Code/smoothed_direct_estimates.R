@@ -128,7 +128,8 @@ adaptive_bym2_model <-
 constr <- list(A = matrix(c(rep(0, num_years), rep(1, num_years)), 
                           nrow = 1, ncol = 2 * num_years), e = 0)
 mod <- logit.est ~ f(region.struct, model = adaptive_bym2_model, 
-                     diagonal = 1e-06, extraconstr = constr, n = 2 * num_years) +
+                     diagonal = 1e-06, extraconstr = constr, 
+                     n = 2 * num_years) +
   f(survey.id,  model = "iid", hyper = hyperpc1)
 options <- list(dic = TRUE, mlik = TRUE, cpo = TRUE, 
                 openmp.strategy = "default")
