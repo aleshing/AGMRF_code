@@ -4,7 +4,8 @@ at the subnational level across multiple countries.
 
 ## Downloading Data
 Reproducing the application requires access to data from the 2016, 2016, 2014, 
-2015, 2015, and 2016 Standard DHS surveys from Burundi, Ethiopia, Kenya, Rwanda, Tanzania, and Uganda respectively. Instructions for gaining 
+2015, 2015, and 2016 Standard DHS surveys from Burundi, Ethiopia, Kenya, Rwanda,
+Tanzania, and Uganda respectively. Instructions for gaining 
 access to these surveys are available at https://dhsprogram.com/.
 
 Once one has access to the data from these surveys, they should download the 
@@ -17,7 +18,8 @@ These should be the following files:
  - Tanzania 2015: TZBR7ADT.zip, TZGE7AFL.zip
  - Uganda 2016: UGBR7BDT.zip, UGGE7AFL.zip
 
-Unzip these files and place the folders BUBR70DT, BUGE71FL, ETBR71DT, ETGE71FL, KEBR72DT, KEGE71FL, RWBR70DT, RWGE72FL, TZBR7ADT, TZGE7AFL, UGBR7BDT, UGGE7AFL 
+Unzip these files and place the folders BUBR70DT, BUGE71FL, ETBR71DT, ETGE71FL, 
+KEBR72DT, KEGE71FL, RWBR70DT, RWGE72FL, TZBR7ADT, TZGE7AFL, UGBR7BDT, UGGE7AFL 
 into the Data directory.
 
 ## Running the code
