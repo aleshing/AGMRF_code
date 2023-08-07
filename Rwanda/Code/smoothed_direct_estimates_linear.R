@@ -46,7 +46,7 @@ hyperpc2 <- list(prec = list(prior = "pc.prec",
                             param = c(pc.u.phi, pc.alpha.phi)))
 hyperpc1 <- list(prec = list(prior = "pc.prec", 
                              param = c(pc.u, pc.alpha)))
-mod <- logit.est ~ -1 + intercept_conflict + intercept_nonconflict  + time +
+mod <- logit.est ~ time  +
   f(region.struct, graph = amat, model = "bym2", hyper = hyperpc2,
     scale.model = TRUE, adjust.for.con.comp = TRUE) +
   f(survey.id,  model = "iid", hyper = hyperpc1)
@@ -62,12 +62,9 @@ dat <- smoothed_direct_bym2$newdata %>% arrange(region) %>%
                    logit.prec = NA, 
                    region.struct = 2016:2019 - 1984,
                    survey.id = NA)) %>%
-  mutate(conflict = as.numeric(region) %in% 1993:1999) %>%
-  mutate(intercept_conflict = as.numeric(conflict == TRUE),
-         intercept_nonconflict = as.numeric(conflict == FALSE),
-         time = region.struct)
+  mutate(time = region.struct)
 
-fit_conflict_int <- INLA::inla(mod, family = "gaussian", 
+fit_linear <- INLA::inla(mod, family = "gaussian", 
                                control.compute = options, 
                                data = dat, 
                                control.predictor = list(compute = TRUE), 
@@ -78,27 +75,28 @@ fit_conflict_int <- INLA::inla(mod, family = "gaussian",
                                scale = dat$logit.prec, 
                                control.inla = control.inla, verbose = FALSE)
 
-out_conflict_int <- dat %>% select(region, years, conflict) %>%
+out_linear <- dat %>% select(region, years) %>%
   mutate(median = NA, lower = NA, upper = NA, logit.median = NA,
          logit.lower = NA, logit.upper = NA)
 for (i in 1:nrow(dat)) {
   tmp.logit <- 
     INLA::inla.rmarginal(1e+05, 
-                         fit_conflict_int$marginals.fitted.values[[i]])
+                         fit_linear$marginals.fitted.values[[i]])
   tmp <- expit(tmp.logit)
-  out_conflict_int$median[i] <- median(tmp)
-  out_conflict_int$lower[i] <- quantile(tmp, probs = 0.025)
-  out_conflict_int$upper[i] <- quantile(tmp, probs = 0.975)
-  out_conflict_int$logit.median[i] <- median(tmp.logit)
-  out_conflict_int$logit.lower[i] <- quantile(tmp.logit, probs = 0.025)
-  out_conflict_int$logit.upper[i] <- quantile(tmp.logit, probs = 0.975)
+  out_linear$median[i] <- median(tmp)
+  out_linear$lower[i] <- quantile(tmp, probs = 0.025)
+  out_linear$upper[i] <- quantile(tmp, probs = 0.975)
+  out_linear$logit.median[i] <- median(tmp.logit)
+  out_linear$logit.lower[i] <- quantile(tmp.logit, probs = 0.025)
+  out_linear$logit.upper[i] <- quantile(tmp.logit, probs = 0.975)
 }
 
-out_conflict_int <- out_conflict_int %>%
+out_linear <- out_linear %>%
   filter(is.na(years))
 
-save(out_conflict_int, fit_conflict_int, 
-     file = "../Results/smoothed_direct_conflict_int.RData")
+save(out_linear, fit_linear,
+     file = "../Results/smoothed_direct_linear.RData")
+
 
 #### Get smoothed direct estimates, adaptive bym2 ####
 # Create structure matrices
@@ -187,41 +185,41 @@ adaptive_bym2_model <-
                              alpha_theta = pc.alpha.theta)
 constr <- list(A = matrix(c(rep(0, num_years), rep(1, num_years)), 
                           nrow = 1, ncol = 2 * num_years), e = 0)
-mod <- logit.est ~ -1 + intercept_conflict + intercept_nonconflict  + time +
+mod <- logit.est ~ time +
   f(region.struct, model = adaptive_bym2_model, 
     diagonal = 1e-06, extraconstr = constr, n = 2 * num_years) +
   f(survey.id,  model = "iid", hyper = hyperpc1)
 options <- list(dic = TRUE, mlik = TRUE, cpo = TRUE, 
                 openmp.strategy = "default", return.marginals.predictor = TRUE)
 control.inla <- list(strategy = "adaptive", int.strategy = "auto")
-fit_adaptive_conflict_int <- 
+fit_adaptive_linear <- 
   INLA::inla(mod, family = "gaussian", control.compute = options, 
-                  data = dat, 
-                  control.predictor = list(compute = TRUE), 
-                  control.family = 
-                    list(hyper =  list(prec = list(initial = log(1), 
-                                                   fixed = TRUE))), 
-                  scale = dat$logit.prec, 
-                  control.inla = control.inla, verbose = FALSE)
+             data = dat, 
+             control.predictor = list(compute = TRUE), 
+             control.family = 
+               list(hyper =  list(prec = list(initial = log(1), 
+                                              fixed = TRUE))), 
+             scale = dat$logit.prec, 
+             control.inla = control.inla, verbose = FALSE)
 
-out_adaptive_conflict_int <- dat %>% select(region, years, conflict) %>%
+out_adaptive_linear <- dat %>% select(region, years) %>%
   mutate(median = NA, lower = NA, upper = NA, logit.median = NA,
          logit.lower = NA, logit.upper = NA)
 for (i in 1:nrow(dat)) {
   tmp.logit <- 
     INLA::inla.rmarginal(1e+05, 
-                         fit_adaptive_conflict_int$marginals.fitted.values[[i]])
+                         fit_adaptive_linear$marginals.fitted.values[[i]])
   tmp <- expit(tmp.logit)
-  out_adaptive_conflict_int$median[i] <- median(tmp)
-  out_adaptive_conflict_int$lower[i] <- quantile(tmp, probs = 0.025)
-  out_adaptive_conflict_int$upper[i] <- quantile(tmp, probs = 0.975)
-  out_adaptive_conflict_int$logit.median[i] <- median(tmp.logit)
-  out_adaptive_conflict_int$logit.lower[i] <- quantile(tmp.logit, probs = 0.025)
-  out_adaptive_conflict_int$logit.upper[i] <- quantile(tmp.logit, probs = 0.975)
+  out_adaptive_linear$median[i] <- median(tmp)
+  out_adaptive_linear$lower[i] <- quantile(tmp, probs = 0.025)
+  out_adaptive_linear$upper[i] <- quantile(tmp, probs = 0.975)
+  out_adaptive_linear$logit.median[i] <- median(tmp.logit)
+  out_adaptive_linear$logit.lower[i] <- quantile(tmp.logit, probs = 0.025)
+  out_adaptive_linear$logit.upper[i] <- quantile(tmp.logit, probs = 0.975)
 }
 
-out_adaptive_conflict_int <- out_adaptive_conflict_int %>%
+out_adaptive_linear <- out_adaptive_linear %>%
   filter(is.na(years))
 
-save(out_adaptive_conflict_int, fit_adaptive_conflict_int, 
-     file = "../Results/smoothed_direct_adaptive_conflict_int.RData")
+save(out_adaptive_linear, fit_adaptive_linear, 
+     file = "../Results/smoothed_direct_adaptive_linear.RData")
