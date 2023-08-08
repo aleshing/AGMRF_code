@@ -87,11 +87,11 @@ for (i in 1:nrow(dat)) {
                          fit_conflict_int$marginals.fitted.values[[i]])
   tmp <- expit(tmp.logit)
   out_conflict_int$median[i] <- median(tmp)
-  out_conflict_int$lower[i] <- quantile(tmp, probs = 0.025)
-  out_conflict_int$upper[i] <- quantile(tmp, probs = 0.975)
+  out_conflict_int$lower[i] <- quantile(tmp, probs = 0.05)
+  out_conflict_int$upper[i] <- quantile(tmp, probs = 0.95)
   out_conflict_int$logit.median[i] <- median(tmp.logit)
-  out_conflict_int$logit.lower[i] <- quantile(tmp.logit, probs = 0.025)
-  out_conflict_int$logit.upper[i] <- quantile(tmp.logit, probs = 0.975)
+  out_conflict_int$logit.lower[i] <- quantile(tmp.logit, probs = 0.05)
+  out_conflict_int$logit.upper[i] <- quantile(tmp.logit, probs = 0.95)
 }
 
 out_conflict_int <- out_conflict_int %>%
@@ -213,11 +213,11 @@ for (i in 1:nrow(dat)) {
                          fit_adaptive_conflict_int$marginals.fitted.values[[i]])
   tmp <- expit(tmp.logit)
   out_adaptive_conflict_int$median[i] <- median(tmp)
-  out_adaptive_conflict_int$lower[i] <- quantile(tmp, probs = 0.025)
-  out_adaptive_conflict_int$upper[i] <- quantile(tmp, probs = 0.975)
+  out_adaptive_conflict_int$lower[i] <- quantile(tmp, probs = 0.05)
+  out_adaptive_conflict_int$upper[i] <- quantile(tmp, probs = 0.95)
   out_adaptive_conflict_int$logit.median[i] <- median(tmp.logit)
-  out_adaptive_conflict_int$logit.lower[i] <- quantile(tmp.logit, probs = 0.025)
-  out_adaptive_conflict_int$logit.upper[i] <- quantile(tmp.logit, probs = 0.975)
+  out_adaptive_conflict_int$logit.lower[i] <- quantile(tmp.logit, probs = 0.05)
+  out_adaptive_conflict_int$logit.upper[i] <- quantile(tmp.logit, probs = 0.95)
 }
 
 out_adaptive_conflict_int <- out_adaptive_conflict_int %>%

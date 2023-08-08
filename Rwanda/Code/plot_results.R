@@ -105,9 +105,9 @@ theta_dens <- rbind(data.frame(theta = theta_prior$theta,
                                Which = "Prior"),
                     data.frame(theta = theta_post[, 1], 
                                density = theta_post[, 2], 
-                               Which = "Post"))
+                               Which = "Posterior"))
 theta_dens %>% ggplot(aes(x = theta, y = density, colour = Which)) + 
-  geom_line() + xlab("Theta") + ylab("Density") 
+  geom_line() + xlab(expression(theta)) + ylab("Density") + labs(color = "") 
 ggsave(filename = "../Results/theta_prior_post_comp.pdf",
        height = 5, width = 8)
 
